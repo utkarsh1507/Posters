@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digichain Pioneers – Blockchain & Crypto Webinar</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan: #00f5ff;
+  --magenta: #ff00e5;
+  --purple: #b400ff;
+  --blue: #0066ff;
+  --green: #00ff88;
+  --red: #ff3366;
+  --white: #ffffff;
+  --dark: #020408;
+  --grid: rgba(0,245,255,0.05);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#010206;
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Rajdhani',sans-serif;
+  overflow-x:hidden;
+}
+
+/* ══ POSTER SHELL ══ */
+.poster {
+  width:900px; min-height:1130px;
+  background:#020408;
+  position:relative; overflow:hidden;
+  padding:46px 52px 44px;
+  border:1px solid rgba(0,245,255,0.12);
+  box-shadow:0 0 100px rgba(0,245,255,0.07), 0 0 250px rgba(180,0,255,0.05);
+}
+
+/* GRID */
+.grid-bg {
+  position:absolute; inset:0; z-index:0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+
+/* BLOBS */
+.blob{position:absolute;border-radius:50%;filter:blur(100px);z-index:0;pointer-events:none;}
+.blob-1{width:550px;height:550px;background:rgba(0,102,255,0.15);top:-180px;right:-150px;animation:blobDrift 12s ease-in-out infinite alternate;}
+.blob-2{width:420px;height:420px;background:rgba(180,0,255,0.14);bottom:-80px;left:-120px;animation:blobDrift 15s ease-in-out infinite alternate-reverse;}
+.blob-3{width:280px;height:280px;background:rgba(0,245,255,0.08);top:52%;left:48%;transform:translate(-50%,-50%);animation:blobDrift 10s ease-in-out infinite alternate;}
+@keyframes blobDrift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.08) translate(20px,15px)}}
+
+/* SCANLINE */
+.scanline{position:absolute;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,245,255,0.012) 2px,rgba(0,245,255,0.012) 4px);animation:scan 10s linear infinite;}
+@keyframes scan{from{background-position:0 0}to{background-position:0 88px}}
+
+/* CORNERS */
+.corner{position:absolute;width:38px;height:38px;z-index:4;}
+.corner-tl{top:16px;left:16px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);}
+.corner-tr{top:16px;right:16px;border-top:2px solid var(--magenta);border-right:2px solid var(--magenta);}
+.corner-bl{bottom:16px;left:16px;border-bottom:2px solid var(--cyan);border-left:2px solid var(--cyan);}
+.corner-br{bottom:16px;right:16px;border-bottom:2px solid var(--magenta);border-right:2px solid var(--magenta);}
+
+.content{position:relative;z-index:3;}
+
+/* ══ TICKER BAR ══ */
+.ticker-bar{
+  background:rgba(0,245,255,0.035);
+  border:1px solid rgba(0,245,255,0.1);
+  border-radius:4px; padding:8px 0;
+  overflow:hidden; margin-bottom:28px;
+  position:relative;
+}
+.ticker-bar::before,.ticker-bar::after{content:'';position:absolute;top:0;bottom:0;width:50px;z-index:2;}
+.ticker-bar::before{left:0;background:linear-gradient(90deg,#020408,transparent);}
+.ticker-bar::after{right:0;background:linear-gradient(-90deg,#020408,transparent);}
+.ticker-track{display:flex;gap:0;animation:tickerScroll 24s linear infinite;width:max-content;}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;gap:8px;padding:0 26px;font-family:'Share Tech Mono',monospace;font-size:11px;border-right:1px solid rgba(0,245,255,0.1);white-space:nowrap;}
+.ticker-sym{color:rgba(255,255,255,0.65);letter-spacing:1px;}
+.ticker-price{color:var(--white);font-weight:600;}
+.ticker-up{color:var(--green);}
+.ticker-down{color:var(--red);}
+
+/* ══ TOP BAR ══ */
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px;opacity:0;transform:translateY(-18px);animation:slideDown .7s cubic-bezier(.22,1,.36,1) .3s forwards;}
+.logo-wrap{display:flex;align-items:center;gap:14px;}
+.logo-img{width:62px;height:62px;border-radius:50%;border:1.5px solid rgba(0,245,255,0.4);box-shadow:0 0 20px rgba(0,245,255,0.3);object-fit:cover;}
+.logo-text .org{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--white);letter-spacing:2px;display:block;}
+.logo-text .sub{font-family:'Orbitron',monospace;font-size:8.5px;color:var(--cyan);letter-spacing:4px;margin-top:2px;display:block;}
+.badge{font-family:'Share Tech Mono',monospace;font-size:10.5px;padding:7px 16px;border-radius:3px;background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.3);color:var(--cyan);letter-spacing:2px;animation:pulse 2.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 8px rgba(0,245,255,0.2)}50%{opacity:.65;box-shadow:0 0 22px rgba(0,245,255,0.55)}}
+
+/* PRESENTS + LABEL */
+.presents{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:500;color:rgba(255,255,255,0.38);letter-spacing:5px;text-transform:uppercase;margin-bottom:13px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp .6s ease .6s forwards;}
+.presents::before,.presents::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.25),transparent);}
+.webinar-label{font-family:'Share Tech Mono',monospace;font-size:10.5px;letter-spacing:6px;color:var(--magenta);text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;gap:8px;opacity:0;animation:fadeUp .6s ease .75s forwards;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--magenta);animation:blink 1.1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* HERO TITLE */
+.hero-title{font-family:'Orbitron',monospace;font-weight:900;line-height:1.02;margin-bottom:9px;}
+.hero-title .line1{font-size:70px;color:var(--white);text-shadow:0 0 28px rgba(0,245,255,0.2);display:block;}
+.hero-title .line2{font-size:70px;display:block;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(180,0,255,0.5));animation:cryptoReveal 3s ease-in-out infinite;}
+@keyframes cryptoReveal{
+  0%   {opacity:0;transform:translateX(50px);}
+  20%  {opacity:1;transform:translateX(0);}
+  70%  {opacity:1;transform:translateX(0);}
+  90%  {opacity:0;transform:translateX(50px);}
+  100% {opacity:0;transform:translateX(50px);}
+}
+.hero-title:hover .line1{animation:glitch .4s steps(2) infinite;}
+@keyframes glitch{0%{text-shadow:2px 0 var(--cyan),-2px 0 var(--magenta)}25%{text-shadow:-3px 1px var(--magenta),3px -1px var(--cyan);transform:skewX(-1deg)}50%{text-shadow:2px -1px var(--cyan),-2px 1px var(--purple)}75%{text-shadow:-2px 2px var(--purple),2px -2px var(--magenta);transform:skewX(1deg)}100%{text-shadow:2px 0 var(--cyan),-2px 0 var(--magenta)}}
+
+.subtitle{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:400;color:rgba(255,255,255,0.45);letter-spacing:3.5px;text-transform:uppercase;margin-bottom:36px;opacity:0;animation:fadeUp .6s ease 1.2s forwards;}
+
+/* ══ COUNTDOWN ══ */
+.countdown-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:28px;opacity:0;animation:fadeUp .7s ease 1.25s forwards;}
+.countdown-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:5px;color:rgba(255,255,255,0.32);text-transform:uppercase;margin-bottom:12px;}
+.countdown-boxes{display:flex;align-items:center;gap:10px;}
+.cd-box{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,0.03);border:1px solid rgba(0,245,255,0.2);border-radius:6px;padding:12px 18px;min-width:78px;position:relative;overflow:hidden;}
+.cd-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple));}
+.cd-num{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--white);line-height:1;text-shadow:0 0 18px rgba(0,245,255,0.4);}
+.cd-unit{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--cyan);margin-top:5px;text-transform:uppercase;}
+.cd-sep{font-family:'Orbitron',monospace;font-size:26px;font-weight:900;color:var(--cyan);opacity:.5;animation:blink 1s step-end infinite;align-self:flex-start;margin-top:10px;}
+.countdown-live{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--magenta);letter-spacing:3px;animation:pulse 1.2s ease-in-out infinite;margin-top:6px;}
+
+/* ══ HOSTED BY ══ */
+.hosted-by{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:28px;opacity:0;animation:fadeUp .6s ease 1.4s forwards;}
+.hb-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:rgba(255,255,255,0.3);text-transform:uppercase;}
+.hb-hosts{display:flex;gap:12px;}
+.hb-host{display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(180,0,255,0.25);border-radius:30px;}
+.hb-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--purple));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.hb-name{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,0.85);letter-spacing:1px;}
+.candle-strip{height:62px;margin-bottom:30px;position:relative;display:flex;align-items:flex-end;gap:3px;padding:0 2px;overflow:hidden;opacity:0;animation:fadeUp .7s ease 1.3s forwards;}
+.candle-strip::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.2),rgba(180,0,255,0.2),transparent);}
+.candle{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;animation:candleGrow .45s ease backwards;}
+.candle-body{width:68%;border-radius:1px;position:relative;z-index:1;}
+.candle-wick{width:1.5px;}
+.candle.up .candle-body{background:linear-gradient(180deg,rgba(0,255,136,0.9),rgba(0,255,136,0.35));}
+.candle.down .candle-body{background:linear-gradient(180deg,rgba(255,51,102,0.9),rgba(255,51,102,0.35));}
+.candle.up  .candle-wick{background:rgba(0,255,136,0.35);}
+.candle.down .candle-wick{background:rgba(255,51,102,0.35);}
+@keyframes candleGrow{from{transform:scaleY(0);transform-origin:bottom}to{transform:scaleY(1)}}
+
+/* INFO CARDS */
+.info-row{display:flex;gap:13px;margin-bottom:30px;}
+.info-card{flex:1;padding:19px 20px;background:rgba(255,255,255,0.024);border:1px solid rgba(0,245,255,0.11);border-radius:6px;position:relative;overflow:hidden;opacity:0;transform:translateY(20px);transition:border-color .3s,box-shadow .3s,transform .3s;}
+.info-card:nth-child(1){animation:fadeUp .6s ease 1.5s forwards;}
+.info-card:nth-child(2){animation:fadeUp .6s ease 1.65s forwards;}
+.info-card:nth-child(3){animation:fadeUp .6s ease 1.8s forwards;}
+.info-card:hover{transform:translateY(-3px);border-color:rgba(0,245,255,0.38);box-shadow:0 8px 30px rgba(0,245,255,0.09);}
+.info-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple));}
+.ic-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:7px;}
+.ic-value{font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:var(--white);}
+.ic-sub{font-family:'Rajdhani',sans-serif;font-size:12px;color:rgba(255,255,255,0.38);margin-top:3px;letter-spacing:1px;}
+
+/* ══ ORDER BOOK ══ */
+.orderbook-row{display:flex;gap:13px;margin-bottom:30px;opacity:0;animation:fadeUp .7s ease 2.0s forwards;}
+.ob-panel{flex:1;padding:15px 17px;background:rgba(255,255,255,0.018);border:1px solid rgba(255,255,255,0.07);border-radius:6px;overflow:hidden;}
+.ob-title{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.32);text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;gap:10px;}
+.ob-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.06);}
+.ob-line{display:flex;align-items:center;gap:8px;margin-bottom:5px;position:relative;opacity:0;transform:translateX(-10px);animation:obSlide 0.35s ease forwards;}
+.ob-bar{position:absolute;left:0;top:0;bottom:0;border-radius:2px;z-index:0;width:0;transition:width 0.9s cubic-bezier(.22,1,.36,1);}
+.ob-line.buy .ob-bar{background:rgba(0,255,136,0.1);}
+.ob-line.sell .ob-bar{background:rgba(255,51,102,0.1);}
+.ob-price{font-family:'Share Tech Mono',monospace;font-size:11px;z-index:1;position:relative;min-width:78px;}
+.ob-line.buy  .ob-price{color:var(--green);}
+.ob-line.sell .ob-price{color:var(--red);}
+.ob-amount{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.32);z-index:1;position:relative;flex:1;text-align:right;}
+@keyframes obSlide{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+
+/* CHAIN SEP */
+.chain-sep{display:flex;align-items:center;margin-bottom:28px;overflow:hidden;opacity:0;animation:fadeUp .5s ease 2.1s forwards;}
+.chain-block{width:12px;height:12px;border:1.5px solid rgba(0,245,255,0.45);transform:rotate(45deg);flex-shrink:0;position:relative;}
+.chain-block::after{content:'';position:absolute;inset:2px;background:rgba(0,245,255,0.18);}
+.chain-link{flex:1;height:1.5px;background:linear-gradient(90deg,rgba(0,245,255,0.35),rgba(180,0,255,0.35));}
+
+/* TOPICS */
+.topics-section{margin-bottom:28px;}
+.section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:5px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp .5s ease 2.2s forwards;}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.06);}
+.topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.topic-item{display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(255,255,255,0.022);border-radius:5px;border:1px solid rgba(255,255,255,0.06);opacity:0;transform:translateX(-15px);transition:background .3s,border-color .3s,transform .3s;}
+.topic-item:nth-child(1){animation:slideRight .5s ease 2.3s forwards;}
+.topic-item:nth-child(2){animation:slideLeft  .5s ease 2.4s forwards;}
+.topic-item:nth-child(3){animation:slideRight .5s ease 2.5s forwards;}
+.topic-item:nth-child(4){animation:slideLeft  .5s ease 2.6s forwards;}
+.topic-item:hover{background:rgba(0,245,255,0.05);border-color:rgba(0,245,255,0.2);transform:translateX(4px);}
+.topic-icon{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(180,0,255,0.1));border:1px solid rgba(0,245,255,0.16);}
+.topic-text{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;color:rgba(255,255,255,0.8);letter-spacing:.4px;}
+
+/* ══ LP BARS ══ */
+.lp-section{margin-bottom:28px;opacity:0;animation:fadeUp .6s ease 2.7s forwards;}
+.lp-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.lp-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.42);min-width:44px;letter-spacing:1px;}
+.lp-bar-bg{flex:1;height:6px;background:rgba(255,255,255,0.055);border-radius:3px;overflow:hidden;}
+.lp-bar-fill{height:100%;border-radius:3px;width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1);}
+.lp-val{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.32);min-width:36px;text-align:right;}
+
+/* HEX ROW */
+.hex-row{display:flex;gap:10px;justify-content:center;margin-bottom:32px;opacity:0;animation:fadeUp .6s ease 2.85s forwards;}
+.hex{width:42px;height:42px;position:relative;display:flex;align-items:center;justify-content:center;}
+.hex svg{position:absolute;inset:0;width:100%;height:100%;}
+.hex-inner{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--cyan);z-index:1;text-align:center;}
+
+/* CTA */
+.cta-wrap{display:flex;justify-content:center;margin-bottom:32px;opacity:0;animation:scaleIn .6s cubic-bezier(.34,1.56,.64,1) 3.0s forwards;}
+@keyframes scaleIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Orbitron',monospace;font-weight:700;font-size:14px;letter-spacing:4px;text-transform:uppercase;padding:17px 56px;color:var(--white);text-decoration:none;background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(180,0,255,0.1));border:none;border-radius:4px;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 0 30px rgba(0,245,255,0.15),inset 0 0 30px rgba(180,0,255,0.05);}
+.cta-btn::before{content:'';position:absolute;inset:-1.5px;z-index:-1;border-radius:5px;background:linear-gradient(135deg,var(--cyan),var(--purple),var(--magenta));}
+.cta-btn::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,0.15) 50%,transparent 70%);transform:translateX(-100%);animation:btnShine 3s ease-in-out 3.5s infinite;}
+@keyframes btnShine{0%,100%{transform:translateX(-100%)}40%,60%{transform:translateX(100%)}}
+.cta-btn:hover{box-shadow:0 0 60px rgba(0,245,255,0.35),0 0 120px rgba(180,0,255,0.2);transform:translateY(-3px) scale(1.02);transition:all .3s;}
+.cta-text{position:relative;z-index:2;}
+.cta-arrow{position:relative;z-index:2;animation:arrowPulse 1.5s ease-in-out infinite;}
+@keyframes arrowPulse{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+
+/* FOOTER */
+.divider{height:1px;margin-bottom:24px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.2),rgba(180,0,255,0.2),transparent);opacity:0;animation:fadeUp .5s ease 3.1s forwards;}
+.footer-row{display:flex;align-items:center;justify-content:space-between;opacity:0;animation:fadeUp .6s ease 3.2s forwards;}
+.free-tag{font-family:'Orbitron',monospace;font-size:10.5px;font-weight:700;padding:6px 14px;border-radius:3px;background:linear-gradient(135deg,rgba(0,255,136,0.12),rgba(0,102,255,0.12));border:1px solid rgba(0,255,136,0.28);color:var(--green);letter-spacing:2px;animation:pulse 2.4s ease-in-out infinite;}
+.social-row{display:flex;gap:11px;align-items:center;}
+.social-link{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.52);text-decoration:none;transition:all .3s;}
+.social-link:hover{background:rgba(0,245,255,0.1);border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 18px rgba(0,245,255,0.35);transform:translateY(-3px) scale(1.1);}
+.social-link svg{width:16px;height:16px;fill:currentColor;}
+.hashtag{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.24);letter-spacing:1px;}
+.hashtag span{color:var(--magenta);}
+
+/* PARTICLES */
+.particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(0,245,255,0.9),transparent);animation:floatUp linear infinite;}
+@keyframes floatUp{0%{transform:translateY(0) scale(0);opacity:0}10%{opacity:1}90%{opacity:.35}100%{transform:translateY(-950px) scale(1.5);opacity:0}}
+
+/* CIRCUIT SVG */
+.circuit{position:absolute;z-index:1;pointer-events:none;}
+.circuit-tl{top:0;left:0;}
+.circuit-br{bottom:0;right:0;transform:rotate(180deg);}
+
+/* KEYFRAME HELPERS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideLeft{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 950px) {
+  .poster {
+    width: 100%;
+    min-height: auto;
+    padding: 40px 30px;
+  }
+  .info-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .orderbook-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .topics-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .hero-title .line1, .hero-title .line2 {
+    font-size: 9vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .poster {
+    padding: 30px 15px;
+  }
+  .top-bar {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .logo-wrap {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hero-title .line1, .hero-title .line2 {
+    font-size: 10.5vw;
+  }
+  .subtitle {
+    font-size: 15px;
+    letter-spacing: 2px;
+  }
+  .countdown-boxes {
+    gap: 6px;
+  }
+  .cd-box {
+    min-width: 55px;
+    padding: 10px 8px;
+  }
+  .cd-num {
+    font-size: 22px;
+  }
+  .cd-sep {
+    font-size: 20px;
+    margin-top: 8px;
+  }
+  .hosted-by {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .hex-row {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .cta-btn {
+    width: 100%;
+    padding: 16px 20px;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .footer-row {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  .circuit {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="grid-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="scanline"></div>
+  <div class="particles" id="particles"></div>
+
+  <svg class="circuit circuit-tl" width="220" height="200" viewBox="0 0 220 200" fill="none">
+    <path d="M0 70 H55 V35 H115" stroke="rgba(0,245,255,0.1)" stroke-width="1.5"/>
+    <path d="M0 110 H35 V55 H90 V25 H155" stroke="rgba(0,245,255,0.06)" stroke-width="1"/>
+    <circle cx="55" cy="35" r="3" fill="rgba(0,245,255,0.3)"/><circle cx="115" cy="35" r="2.5" fill="rgba(0,245,255,0.2)"/><circle cx="35" cy="55" r="2" fill="rgba(0,245,255,0.2)"/>
+  </svg>
+  <svg class="circuit circuit-br" width="220" height="200" viewBox="0 0 220 200" fill="none">
+    <path d="M0 70 H55 V35 H115" stroke="rgba(180,0,255,0.1)" stroke-width="1.5"/>
+    <path d="M0 110 H35 V55 H90 V25 H155" stroke="rgba(180,0,255,0.06)" stroke-width="1"/>
+    <circle cx="55" cy="35" r="3" fill="rgba(180,0,255,0.3)"/><circle cx="35" cy="55" r="2" fill="rgba(255,0,229,0.2)"/>
+  </svg>
+
+  <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+
+  <div class="content">
+
+    <!-- TICKER BAR -->
+    <div class="ticker-bar"><div class="ticker-track" id="tickerTrack"></div></div>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="logo-wrap">
+        <img class="logo-img" src="https://raw.githubusercontent.com/utkarsh1507/Posters/refs/heads/main/digichain-logo.png" alt="Digichain Pioneers" onerror="this.style.display='none';document.getElementById('lf').style.display='flex';">
+        <div id="lf" style="display:none;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#00f5ff,#b400ff);align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:22px;color:#fff;border:1.5px solid rgba(0,245,255,0.4);box-shadow:0 0 18px rgba(0,245,255,0.3);">⬡</div>
+        <div class="logo-text"><span class="org">DIGICHAIN</span><span class="sub">PIONEERS</span></div>
+      </div>
+      <div class="badge">◉ LIVE WEBINAR</div>
+    </div>
+
+    <div class="presents">PRESENTS</div>
+    <div class="webinar-label"><div class="dot"></div>EXCLUSIVE ONLINE EVENT</div>
+
+    <div class="hero-title">
+      <span class="line1">BLOCKCHAIN</span>
+      <span class="line2">&amp; CRYPTO</span>
+    </div>
+    <div class="subtitle">The Future of Decentralized Finance</div>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-wrap">
+      <div class="countdown-label">// EVENT STARTS IN</div>
+      <div class="countdown-boxes">
+        <div class="cd-box"><div class="cd-num" id="cd-days">00</div><div class="cd-unit">Days</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><div class="cd-num" id="cd-hours">00</div><div class="cd-unit">Hours</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><div class="cd-num" id="cd-mins">00</div><div class="cd-unit">Mins</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><div class="cd-num" id="cd-secs">00</div><div class="cd-unit">Secs</div></div>
+      </div>
+      <div id="cd-live" style="display:none;" class="countdown-live">◉ EVENT IS LIVE NOW!</div>
+    </div>
+
+    <!-- HOSTED BY -->
+    <div class="hosted-by">
+      <div class="hb-label">Hosted by</div>
+      <div class="hb-hosts">
+        <div class="hb-host">
+          <div class="hb-avatar">V</div>
+          <div class="hb-name">Varun</div>
+        </div>
+        <div class="hb-host" style="border-color:rgba(0,245,255,0.25);">
+          <div class="hb-avatar" style="background:linear-gradient(135deg,var(--magenta),var(--blue));">U</div>
+          <div class="hb-name">Utkarsh</div>
+        </div>
+      </div>
+    </div>
+    <div class="candle-strip" id="candleStrip"></div>
+
+    <!-- INFO CARDS -->
+    <div class="info-row">
+      <div class="info-card"><div class="ic-label">// Date & Time</div><div class="ic-value">28 MARCH 2026</div><div class="ic-sub">Saturday · 12:00 PM IST</div></div>
+      <div class="info-card"><div class="ic-label">// Format</div><div class="ic-value">LIVE ONLINE</div><div class="ic-sub">Interactive Session</div></div>
+      <div class="info-card"><div class="ic-label">// Access</div><div class="ic-value">FREE ENTRY</div><div class="ic-sub">Registration Required</div></div>
+    </div>
+
+    <!-- ORDER BOOK -->
+    <div class="orderbook-row">
+      <div class="ob-panel"><div class="ob-title">// BUY ORDERS</div><div id="buyOrders"></div></div>
+      <div class="ob-panel"><div class="ob-title">// SELL ORDERS</div><div id="sellOrders"></div></div>
+    </div>
+
+    <!-- CHAIN SEP -->
+    <div class="chain-sep">
+      <div class="chain-block"></div><div class="chain-link"></div><div class="chain-block"></div><div class="chain-link"></div>
+      <div class="chain-block"></div><div class="chain-link"></div><div class="chain-block"></div><div class="chain-link"></div>
+      <div class="chain-block"></div><div class="chain-link"></div><div class="chain-block"></div><div class="chain-link"></div>
+      <div class="chain-block"></div><div class="chain-link"></div><div class="chain-block"></div><div class="chain-link"></div>
+      <div class="chain-block"></div>
+    </div>
+
+    <!-- TOPICS -->
+    <div class="topics-section">
+      <div class="section-label">// WHAT YOU'LL EXPLORE</div>
+      <div class="topics-grid">
+        <div class="topic-item"><div class="topic-icon">⛓</div><div class="topic-text">Blockchain Fundamentals & Architecture</div></div>
+        <div class="topic-item"><div class="topic-icon">₿</div><div class="topic-text">Crypto Markets & Trading Strategies</div></div>
+        <div class="topic-item"><div class="topic-icon">📜</div><div class="topic-text">Smart Contracts & DeFi Protocols</div></div>
+        <div class="topic-item"><div class="topic-icon">🔮</div><div class="topic-text">Web3 & the Future of Digital Assets</div></div>
+      </div>
+    </div>
+
+    <!-- LP BARS -->
+    <div class="lp-section">
+      <div class="section-label" style="opacity:1;animation:none;">// LIQUIDITY POOL SNAPSHOT</div>
+      <div id="lpBars"></div>
+    </div>
+
+    <!-- HEX ROW -->
+    <div class="hex-row">
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="none" stroke="rgba(0,245,255,0.28)" stroke-width="1"/></svg><div class="hex-inner">BTC</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="rgba(0,245,255,0.05)" stroke="rgba(0,245,255,0.45)" stroke-width="1.5"/></svg><div class="hex-inner" style="color:#fff;font-size:13px">⬡</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="none" stroke="rgba(180,0,255,0.32)" stroke-width="1"/></svg><div class="hex-inner" style="color:var(--magenta)">ETH</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="rgba(180,0,255,0.05)" stroke="rgba(180,0,255,0.45)" stroke-width="1.5"/></svg><div class="hex-inner" style="color:#fff;font-size:13px">⬡</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="none" stroke="rgba(0,245,255,0.28)" stroke-width="1"/></svg><div class="hex-inner">DeFi</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="rgba(0,102,255,0.05)" stroke="rgba(0,102,255,0.45)" stroke-width="1.5"/></svg><div class="hex-inner" style="color:#fff;font-size:13px">⬡</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="none" stroke="rgba(255,0,229,0.28)" stroke-width="1"/></svg><div class="hex-inner" style="color:var(--magenta)">NFT</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="rgba(0,245,255,0.05)" stroke="rgba(0,245,255,0.45)" stroke-width="1.5"/></svg><div class="hex-inner" style="color:#fff;font-size:13px">⬡</div></div>
+      <div class="hex"><svg viewBox="0 0 42 42"><polygon points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5" fill="none" stroke="rgba(0,245,255,0.28)" stroke-width="1"/></svg><div class="hex-inner">WEB3</div></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <a class="cta-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSdvsDcXeD-bwfRgfeM2vD7NRbVY2pqU9WVvFf-l_GwovNv7_w/viewform?usp=publish-editor" target="_blank">
+        <span class="cta-text">REGISTER NOW</span><span class="cta-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FOOTER -->
+    <div class="footer-row">
+      <div class="free-tag">FREE EVENT</div>
+      <div class="hashtag"><span>#</span>DigichainPioneers &nbsp;<span>#</span>BlockchainWebinar</div>
+      <div class="social-row">
+        <a class="social-link" href="https://www.linkedin.com/company/digichain-pioneers/" target="_blank" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a class="social-link" href="https://www.instagram.com/digichain_pioneers?igsh=MTJ4NHdoOXRleWJjeQ==" target="_blank" title="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a class="social-link" href="https://chat.whatsapp.com/DiuJ4vC4rbv4nhn52bAwJb?mode=gi_t" target="_blank" title="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ── TICKER ── */
+const tickers = [
+  {sym:'BTC/USDT',price:'83,241.50',chg:'+2.34%',up:true},
+  {sym:'ETH/USDT',price:'1,973.88',chg:'+1.87%',up:true},
+  {sym:'SOL/USDT',price:'131.44',chg:'-0.65%',up:false},
+  {sym:'BNB/USDT',price:'582.10',chg:'+0.91%',up:true},
+  {sym:'XRP/USDT',price:'2.1740',chg:'+3.12%',up:true},
+  {sym:'AVAX/USDT',price:'19.55',chg:'-1.23%',up:false},
+  {sym:'LINK/USDT',price:'13.88',chg:'+0.54%',up:true},
+  {sym:'MATIC/USDT',price:'0.3821',chg:'-0.88%',up:false},
+  {sym:'UNI/USDT',price:'6.24',chg:'+1.10%',up:true},
+  {sym:'AAVE/USDT',price:'148.60',chg:'+2.05%',up:true},
+];
+const track = document.getElementById('tickerTrack');
+[...tickers,...tickers].forEach(t => {
+  track.innerHTML += `<div class="ticker-item"><span class="ticker-sym">${t.sym}</span><span class="ticker-price">${t.price}</span><span class="${t.up?'ticker-up':'ticker-down'}">${t.chg}</span></div>`;
+});
+setInterval(()=>{
+  const all=document.querySelectorAll('.ticker-price');
+  const el=all[Math.floor(Math.random()*all.length)];
+  el.style.transition='color .15s';el.style.color='#00ff88';
+  setTimeout(()=>{el.style.color='';},260);
+},750);
+
+/* ── CANDLES ── */
+const candleData=[
+  {h:55,l:10,o:22,c:48,up:true},{h:50,l:25,o:45,c:28,up:false},
+  {h:42,l:15,o:18,c:38,up:true},{h:58,l:28,o:36,c:55,up:true},
+  {h:52,l:20,o:50,c:25,up:false},{h:48,l:18,o:22,c:44,up:true},
+  {h:60,l:30,o:32,c:57,up:true},{h:55,l:22,o:52,c:28,up:false},
+  {h:50,l:14,o:16,c:46,up:true},{h:56,l:24,o:48,c:30,up:false},
+  {h:44,l:18,o:20,c:40,up:true},{h:58,l:26,o:28,c:54,up:true},
+  {h:52,l:16,o:50,c:22,up:false},{h:60,l:32,o:34,c:58,up:true},
+  {h:48,l:20,o:44,c:24,up:false},{h:55,l:18,o:20,c:52,up:true},
+  {h:58,l:28,o:56,c:32,up:false},{h:50,l:16,o:18,c:47,up:true},
+  {h:62,l:30,o:32,c:60,up:true},{h:54,l:22,o:52,c:26,up:false},
+];
+const strip=document.getElementById('candleStrip');
+candleData.forEach((d,i)=>{
+  const bodyH=Math.abs(d.c-d.o);
+  const wickTopH=d.h-Math.max(d.c,d.o);
+  const wickBotH=Math.min(d.c,d.o)-d.l;
+  const div=document.createElement('div');
+  div.className=`candle ${d.up?'up':'down'}`;
+  div.style.height=d.h+'px';
+  div.style.animationDelay=(i*0.055+1.3)+'s';
+  div.innerHTML=`<div class="candle-wick" style="height:${wickTopH}px"></div><div class="candle-body" style="height:${Math.max(bodyH,3)}px"></div><div class="candle-wick" style="height:${wickBotH}px"></div>`;
+  strip.appendChild(div);
+});
+
+/* ── ORDER BOOK ── */
+const buys=[{p:'83,120.00',a:'0.4821',w:85},{p:'83,110.50',a:'1.2340',w:70},{p:'83,098.00',a:'0.8812',w:55},{p:'83,085.20',a:'2.1100',w:90},{p:'83,070.00',a:'0.3300',w:40}];
+const sells=[{p:'83,260.00',a:'0.5540',w:75},{p:'83,275.50',a:'1.0010',w:88},{p:'83,290.00',a:'0.7720',w:60},{p:'83,310.80',a:'1.5500',w:95},{p:'83,330.00',a:'0.2200',w:35}];
+function renderOB(data,id,isBuy){
+  const el=document.getElementById(id);
+  const bars=[];
+  data.forEach((r,i)=>{
+    const line=document.createElement('div');
+    line.className=`ob-line ${isBuy?'buy':'sell'}`;
+    // stagger: ob section fades in at 2.0s, each line slides in after that
+    const slideDelay = 2.05 + i * 0.1;
+    line.style.animationDelay = slideDelay + 's';
+    const bar=document.createElement('div');bar.className='ob-bar';
+    line.innerHTML=`<span class="ob-price">${r.p}</span><span class="ob-amount">${r.a} BTC</span>`;
+    line.insertBefore(bar,line.firstChild);
+    el.appendChild(line);
+    bars.push({bar,w:r.w,delay: slideDelay + 0.4});
+  });
+  // expand bars after their row has slid in
+  bars.forEach(({bar,w,delay})=>{
+    setTimeout(()=>{ bar.style.width=w+'%'; }, delay*1000);
+  });
+}
+renderOB(buys,'buyOrders',true);
+renderOB(sells,'sellOrders',false);
+// live flash + price flicker
+setInterval(()=>{
+  const lines=document.querySelectorAll('.ob-line');
+  if(!lines.length)return;
+  const l=lines[Math.floor(Math.random()*lines.length)];
+  const isBuy=l.classList.contains('buy');
+  l.style.transition='background .2s';
+  l.style.background=isBuy?'rgba(0,255,136,0.07)':'rgba(255,51,102,0.07)';
+  // also flicker the price
+  const pr=l.querySelector('.ob-price');
+  if(pr){pr.style.transition='opacity .1s';pr.style.opacity='0.4';setTimeout(()=>{pr.style.opacity='1';},120);}
+  setTimeout(()=>l.style.background='',400);
+},1200);
+
+/* ── COUNTDOWN ── */
+function updateCountdown(){
+  const target=new Date('2026-03-28T12:00:00+05:30').getTime();
+  const now=Date.now();
+  const diff=target-now;
+  if(diff<=0){
+    document.querySelectorAll('.countdown-boxes').forEach(e=>e.style.display='none');
+    const live=document.getElementById('cd-live');
+    live.style.display='block';
+    return;
+  }
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor((diff%86400000)/3600000);
+  const m=Math.floor((diff%3600000)/60000);
+  const s=Math.floor((diff%60000)/1000);
+  document.getElementById('cd-days').textContent=String(d).padStart(2,'0');
+  document.getElementById('cd-hours').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent=String(s).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* ── LP BARS ── */
+const pools=[
+  {label:'BTC',pct:78,color:'linear-gradient(90deg,#f7931a,#ffb347)',val:'78%'},
+  {label:'ETH',pct:65,color:'linear-gradient(90deg,#627eea,#b400ff)',val:'65%'},
+  {label:'USDT',pct:91,color:'linear-gradient(90deg,#00ff88,#00c97a)',val:'91%'},
+  {label:'SOL',pct:52,color:'linear-gradient(90deg,#9945ff,#ff00e5)',val:'52%'},
+];
+const lpC=document.getElementById('lpBars');
+pools.forEach((p,i)=>{
+  const row=document.createElement('div');row.className='lp-row';
+  row.innerHTML=`<span class="lp-label">${p.label}</span><div class="lp-bar-bg"><div class="lp-bar-fill" id="lpf${i}" style="background:${p.color}"></div></div><span class="lp-val">${p.val}</span>`;
+  lpC.appendChild(row);
+  setTimeout(()=>{document.getElementById('lpf'+i).style.width=p.pct+'%';},( 2800+i*200));
+});
+
+/* ── PARTICLES ── */
+const pc=document.getElementById('particles');
+for(let i=0;i<22;i++){
+  const p=document.createElement('div');p.className='particle';
+  const sz=Math.random()*2.5+1;
+  p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:-10px;animation-duration:${Math.random()*12+9}s;animation-delay:${Math.random()*10}s;opacity:${Math.random()*0.45+0.12};`;
+  pc.appendChild(p);
+}
+</script>
+</body>
+</html>
